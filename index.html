@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Netflix | Emanuelle e Renner</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap"
@@ -199,89 +199,110 @@
       transform: scale(1.1);
       z-index: 5;
     }
-    /* Ajustes para dispositivos móveis (Telemóveis) */
+   /* --- CONFIGURAÇÃO UNIVERSAL MOBILE (Máxima Compatibilidade) --- */
 @media (max-width: 768px) {
     
-    /* 1. Ajuste do Topo (Header) */
+    /* 1. Ajuste do Header para não flutuar sobre o conteúdo de forma invasiva */
     header {
-        padding: 10px 5%;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+        padding: 15px 5%;
+        background: rgba(20, 20, 20, 0.95); /* Fundo mais sólido para leitura */
+        justify-content: center; /* Centraliza o logo no mobile */
+        width: 90%;
     }
 
     .logo {
-        font-size: 20px; /* Logo menor para não ocupar muito espaço */
+        font-size: 1.5rem;
+        letter-spacing: 2px;
     }
 
     nav {
-        display: none; /* Esconde links extras para limpar o visual */
+        display: none; /* Remove navegação desnecessária no telemóvel */
     }
 
-    /* 2. Ajuste da Seção Principal (Hero) */
+    /* 2. Hero Section Adaptável */
     .hero {
-        height: auto; 
-        min-height: 70vh; /* Altura um pouco menor para a galeria subir */
-        padding-top: 110px; /* IMPORTANTE: Empurra o título para baixo da Netflix */
-        align-items: flex-start; /* Conteúdo começa de cima */
-        padding-bottom: 30px;
-        background-position: center 10%; /* Foca no topo da imagem de fundo */
+        height: auto;
+        min-height: 100vh; /* Ocupa pelo menos a tela toda */
+        padding: 120px 20px 40px 20px; /* 120px de topo para fugir do logo Netflix */
+        box-sizing: border-box; /* Garante que o padding não aumente o tamanho da tela */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background-attachment: scroll; /* Melhora performance em browsers mobile */
     }
 
     .hero-content {
-        max-width: 100%;
-        text-align: center; /* Centraliza textos no mobile */
-        margin: 0 auto;
+        width: 100%;
+        text-align: center;
     }
 
+    /* 3. Tipografia Fluida */
     .title {
-        font-size: 38px; /* Título menor para evitar quebra de linha feia */
-        margin: 10px 0;
-        line-height: 1.1;
+        font-size: clamp(2.5rem, 10vw, 3.5rem); /* Ajusta o tamanho da fonte entre limites */
+        margin: 15px 0;
+        display: block;
+        width: 100%;
     }
 
     .description {
-        font-size: 14px;
-        line-height: 1.4;
-        margin-bottom: 20px;
-        padding: 0 10px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 25px;
+        padding: 0 5px;
+        text-align: center;
     }
 
-    /* 3. Ajuste dos Botões */
+    /* 4. Botões de Toque (Touch Friendly) */
     .buttons {
-        display: flex;
-        flex-direction: column; /* Botões empilhados */
+        display: grid; /* Grid é mais estável que flex no mobile */
+        grid-template-columns: 1fr;
         gap: 12px;
-        align-items: center;
+        width: 100%;
     }
 
     .buttons button {
-        width: 90%; /* Botões quase na largura toda */
-        margin-right: 0;
-        padding: 10px;
-        font-size: 16px;
+        width: 100%;
+        min-height: 48px; /* Tamanho ideal para o dedo tocar sem erro */
+        margin: 0;
+        font-size: 1rem;
     }
 
-    /* 4. Ajuste da Galeria (Nossos Melhores Momentos) */
+    /* 5. Seletor de Temporadas */
+    .season-selector {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .season-selector select {
+        width: 100%;
+        height: 45px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    /* 6. Galeria "Nossos Melhores Momentos" */
     .gallery {
-        padding: 10px 5% 40px 5%;
-        margin-top: -20px; /* "Puxa" a galeria um pouco mais para cima */
+        margin-top: -30px; /* Puxa a galeria para cima de forma suave */
+        padding: 0 0 50px 5%;
     }
 
     .gallery h2 {
-        font-size: 18px;
-        text-align: left;
-        margin-bottom: 10px;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .gallery-container {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto; /* Permite o deslize lateral (scroll) */
+        padding-bottom: 20px;
+        -webkit-overflow-scrolling: touch; /* Suaviza o scroll no iPhone */
     }
 
     .gallery-container img {
-        min-width: 180px; /* Fotos menores para o utilizador ver várias ao deslizar */
-        height: 110px;
-    }
-
-    /* Seletor de Temporadas no Mobile */
-    .season-selector select {
-        width: 90%;
-        font-size: 14px;
-        margin: 0 auto;
+        min-width: 200px; /* Tamanho ideal para visualização rápida */
+        height: 120px;
+        border-radius: 6px;
     }
 }
 
