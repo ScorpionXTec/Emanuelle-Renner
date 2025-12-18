@@ -10,302 +10,202 @@
     rel="stylesheet">
 
   <style>
-    /* CSS INTEGRADO */
-    body {
-      background-color: #141414;
-      color: white;
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      overflow-x: hidden;
-    }
+    /* --- ESTILO GLOBAL E RESET --- */
+body {
+    background-color: #141414;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
 
-    /* Navegação */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 5%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-      position: fixed;
-      width: 90%;
-      z-index: 100;
-    }
+/* --- NAVEGAÇÃO (HEADER) --- */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 5%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+    position: fixed;
+    width: 90%;
+    z-index: 1000;
+}
 
-    .logo {
-      color: #e50914;
-      font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+.logo {
+    color: #e50914;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
 
-    nav a {
-      color: #e5e5e5;
-      text-decoration: none;
-      margin-left: 15px;
-      font-size: 14px;
-    }
+nav a {
+    color: #e5e5e5;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
 
-    /* Seção Principal (Hero) */
-    .hero {
-      height: 90vh;
-      display: flex;
-      align-items: center;
-      padding: 0 5%;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.8s ease-in-out;
-      position: relative;
-    }
+nav a:hover {
+    color: white;
+}
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to right, #141414 10%, transparent 70%),
-        linear-gradient(to top, #141414 5%, transparent 30%);
-    }
+/* --- SEÇÃO PRINCIPAL (HERO) --- */
+.hero {
+    min-height: 85vh; /* Altura flexível */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza conteúdo verticalmente */
+    padding: 0 5%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: background-image 0.8s ease-in-out;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 600px;
-      transition: opacity 0.5s;
-    }
+/* Degradê para garantir leitura do texto sobre a foto */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to right, #141414 10%, transparent 70%),
+                linear-gradient(to top, #141414 5%, transparent 30%);
+    z-index: 1;
+}
 
-    .type {
-      font-weight: bold;
-      letter-spacing: 4px;
-      color: #aaa;
-      font-size: 12px;
-    }
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+    margin-bottom: 4vh; /* Distância dinâmica até a galeria */
+    transition: opacity 0.5s ease;
+}
 
-    .title {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(50px, 8vw, 90px);
-      margin: 10px 0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
+.type { font-weight: bold; letter-spacing: 4px; color: #aaa; font-size: 0.75rem; }
 
-    .info {
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+.title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
 
-    .top10 {
-      background-color: #e50914;
-      padding: 2px 5px;
-      font-weight: bold;
-      font-size: 12px;
-    }
+.info { 
+    margin-bottom: 20px; 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    font-weight: bold;
+}
+.top10 { background-color: #e50914; padding: 2px 5px; font-size: 0.75rem; }
+.rating { color: #46d369; }
 
-    .rating {
-      color: #46d369;
-      font-weight: bold;
-    }
+.description {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.5;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
 
-    .description {
-      font-size: 18px;
-      line-height: 1.4;
-      margin-bottom: 25px;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    }
+/* --- BOTÕES E SELETOR --- */
+.season-selector { margin-bottom: 25px; }
+.season-selector select {
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: 1px solid #666;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
 
-    /* Seletor de Temporadas */
-    .season-selector {
-      margin-bottom: 25px;
-    }
+.buttons { display: flex; gap: 12px; }
+.buttons button {
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+.btn-play { background-color: white; color: black; }
+.btn-play:hover { background-color: #e5e5e5; transform: scale(1.05); }
+.btn-fav { background-color: rgba(109, 109, 110, 0.7); color: white; }
+.btn-fav:hover { background-color: rgba(109, 109, 110, 0.5); transform: scale(1.05); }
 
-    .season-selector select {
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: 1px solid #888;
-      padding: 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    /* Botões */
-    .buttons button {
-      padding: 12px 25px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      margin-right: 10px;
-      transition: 0.3s;
-    }
-
-    .btn-play {
-      background-color: white;
-      color: black;
-    }
-
-    .btn-play:hover {
-      background-color: #e5e5e5;
-    }
-
-    .btn-fav {
-      background-color: rgba(109, 109, 110, 0.7);
-      color: white;
-    }
-
-    .btn-fav:hover {
-      background-color: rgba(109, 109, 110, 0.4);
-    }
-
-    /* Galeria */
-   .gallery {
-    padding: 20px 5%; /* Reduzi o padding superior de 40px para 20px */
+/* --- GALERIA (NOSSOS MELHORES MOMENTOS) --- */
+.gallery {
+    padding: 2vh 5% 5vh 5%;
     background-color: #141414;
     position: relative;
-    z-index: 5; /* Garante que fique sobreposta ao degradê do fundo */
-    margin-top: -50px; /* Margem negativa para "puxar" a galeria para cima do fundo */
+    z-index: 10;
 }
 
-    .gallery h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
+.gallery h2 {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: 15px;
+}
 
-    .gallery-container {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 20px 0;
-      scrollbar-width: none;
-    }
+.gallery-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 15px 0;
+    scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch; /* Scroll suave iOS */
+}
+.gallery-container::-webkit-scrollbar { display: none; }
 
-    .gallery-container::-webkit-scrollbar {
-      display: none;
-    }
+.gallery-container img {
+    min-width: clamp(200px, 20vw, 300px);
+    height: clamp(120px, 12vw, 180px);
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+.gallery-container img:hover { transform: scale(1.1); z-index: 20; }
 
-    .gallery-container img {
-      min-width: 280px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: transform 0.4s;
-    }
-
-    .gallery-container img:hover {
-      transform: scale(1.1);
-      z-index: 5;
-    }
-   /* --- CONFIGURAÇÃO UNIVERSAL MOBILE (Máxima Compatibilidade) --- */
+/* --- CONFIGURAÇÃO SMARTPHONES (MOBILE) --- */
 @media (max-width: 768px) {
-    
-    /* 1. Ajuste do Header para não flutuar sobre o conteúdo de forma invasiva */
     header {
-        padding: 15px 5%;
-        background: rgba(20, 20, 20, 0.95); /* Fundo mais sólido para leitura */
-        justify-content: center; /* Centraliza o logo no mobile */
-        width: 90%;
+        justify-content: center;
+        padding: 15px 0;
+        background: rgba(20, 20, 20, 0.9);
     }
+    
+    nav { display: none; }
 
-    .logo {
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-    }
-
-    nav {
-        display: none; /* Remove navegação desnecessária no telemóvel */
-    }
-
-    /* 2. Hero Section Adaptável */
     .hero {
-        height: auto;
-        min-height: 100vh; /* Ocupa pelo menos a tela toda */
-        padding: 120px 20px 40px 20px; /* 120px de topo para fugir do logo Netflix */
-        box-sizing: border-box; /* Garante que o padding não aumente o tamanho da tela */
-        display: flex;
-        flex-direction: column;
+        min-height: 75vh;
+        padding-top: 100px; /* Evita sobreposição com o logo */
         justify-content: flex-start;
-        background-attachment: scroll; /* Melhora performance em browsers mobile */
     }
 
     .hero-content {
-        width: 100%;
         text-align: center;
+        margin-bottom: 30px; /* Distância exata no mobile */
     }
 
-    /* 3. Tipografia Fluida */
-    .title {
-        font-size: clamp(2.5rem, 10vw, 3.5rem); /* Ajusta o tamanho da fonte entre limites */
-        margin: 15px 0;
-        display: block;
-        width: 100%;
-    }
+    .info { justify-content: center; }
 
-    .description {
-        font-size: 0.95rem;
-        line-height: 1.5;
-        margin-bottom: 25px;
-        padding: 0 5px;
-        text-align: center;
-    }
-
-    /* 4. Botões de Toque (Touch Friendly) */
     .buttons {
-        display: grid; /* Grid é mais estável que flex no mobile */
-        grid-template-columns: 1fr;
-        gap: 12px;
-        width: 100%;
+        flex-direction: column;
+        align-items: center;
     }
 
     .buttons button {
         width: 100%;
-        min-height: 48px; /* Tamanho ideal para o dedo tocar sem erro */
-        margin: 0;
-        font-size: 1rem;
+        max-width: 300px;
     }
 
-    /* 5. Seletor de Temporadas */
-    .season-selector {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .season-selector select {
-        width: 100%;
-        height: 45px;
-        font-size: 1rem;
-        text-align: center;
-    }
-
-    /* 6. Galeria "Nossos Melhores Momentos" */
     .gallery {
-        margin-top: -30px; /* Puxa a galeria para cima de forma suave */
-        padding: 0 0 50px 5%;
-    }
-
-    .gallery h2 {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-    }
-
-    .gallery-container {
-        display: flex;
-        gap: 12px;
-        overflow-x: auto; /* Permite o deslize lateral (scroll) */
-        padding-bottom: 20px;
-        -webkit-overflow-scrolling: touch; /* Suaviza o scroll no iPhone */
-    }
-
-    .gallery-container img {
-        min-width: 200px; /* Tamanho ideal para visualização rápida */
-        height: 120px;
-        border-radius: 6px;
+        padding-top: 0;
     }
 }
-
 /* Ajustes para Computador (Ecrãs grandes) */
 @media (min-width: 1024px) {
     .hero-content {
