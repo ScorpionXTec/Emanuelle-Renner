@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix | Emanuelle e Renner</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* CSS INTEGRADO */
+    body {
+      background-color: #141414;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* Navegação */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 5%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+      position: fixed;
+      width: 90%;
+      z-index: 100;
+    }
+
+    .logo {
+      color: #e50914;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: #e5e5e5;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    /* Seção Principal (Hero) */
+    .hero {
+      height: 75vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.8s ease-in-out;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to right, #141414 10%, transparent 70%),
+        linear-gradient(to top, #141414 5%, transparent 30%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      transition: opacity 0.5s;
+    }
+
+    .type {
+      font-weight: bold;
+      letter-spacing: 4px;
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(50px, 8vw, 90px);
+      margin: 10px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .info {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .top10 {
+      background-color: #e50914;
+      padding: 2px 5px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .rating {
+      color: #46d369;
+      font-weight: bold;
+    }
+
+    .description {
+      font-size: 18px;
+      line-height: 1.4;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Seletor de Temporadas */
+    .season-selector {
+      margin-bottom: 25px;
+    }
+
+    .season-selector select {
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: 1px solid #888;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Botões */
+    .buttons button {
+      padding: 12px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: 0.3s;
+    }
+
+    .btn-play {
+      background-color: white;
+      color: black;
+    }
+
+    .btn-play:hover {
+      background-color: #e5e5e5;
+    }
+
+    .btn-fav {
+      background-color: rgba(109, 109, 110, 0.7);
+      color: white;
+    }
+
+    .btn-fav:hover {
+      background-color: rgba(109, 109, 110, 0.4);
+    }
+
+    /* Galeria */
+   .gallery {
+    padding: 20px 5%; /* Reduzi o padding superior de 40px para 20px */
+    background-color: #141414;
+    position: relative;
+    z-index: 5; /* Garante que fique sobreposta ao degradê do fundo */
+    margin-top: -50px; /* Margem negativa para "puxar" a galeria para cima do fundo */
+}
+
+    .gallery h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .gallery-container {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 20px 0;
+      scrollbar-width: none;
+    }
+
+    .gallery-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-container img {
+      min-width: 280px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+
+    .gallery-container img:hover {
+      transform: scale(1.1);
+      z-index: 5;
+    }
+    /* Ajustes para Telemóveis (Ecrãs até 768px) */
+@media (max-width: 768px) {
+    header {
+        padding: 10px 5%;
+    }
+    
+    .logo {
+        font-size: 22px;
+    }
+
+    nav {
+        display: none; /* Esconde o menu de texto no telemóvel para ganhar espaço */
+    }
+
+    .hero {
+        height: 100vh; /* Ocupa a tela toda no telemóvel */
+        padding: 0 20px;
+        align-items: flex-end; /* Coloca o texto mais para baixo */
+        padding-bottom: 50px;
+    }
+
+    .title {
+        font-size: 45px; /* Título menor para caber no ecrã */
+        text-align: center;
+    }
+
+    .description {
+        font-size: 15px;
+        text-align: center;
+        margin: 0 auto 20px auto;
+    }
+
+    .info {
+        justify-content: center;
+        flex-wrap: wrap; /* Se não couber, os itens descem */
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column; /* Botões um em cima do outro */
+        gap: 10px;
+    }
+
+    .buttons button {
+        width: 100%; /* Botões ocupam a largura toda */
+        margin-right: 0;
+    }
+
+    .season-selector {
+        text-align: center;
+    }
+
+    .gallery-container img {
+        min-width: 160px; /* Fotos menores no telemóvel */
+        height: 100px;
+    }
+
+    .hero {
+        height: 60vh; /* No telemóvel, o hero pode ser ainda menor */
+    }
+    .gallery {
+        margin-top: 0; /* No telemóvel, removemos a margem negativa para evitar sobreposições estranhas */
+        padding-top: 10px;
+    }
+  }
+
+/* Ajustes para Computador (Ecrãs grandes) */
+@media (min-width: 1024px) {
+    .hero-content {
+        margin-top: 50px; /* Dá um espaço do topo no PC */
+    }
+}
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">NETFLIX</div>
+    <nav>
+      <a href="#">Início</a>
+      <a href="#">Séries</a>
+      <a href="#">Filmes</a>
+      <a href="#">Minha lista</a>
+    </nav>
+  </header>
+
+  <main class="hero" id="hero-section">
+    <div class="hero-content" id="content">
+      <span class="type">S É R I E</span>
+      <h1 class="title" id="display-title">Emanuelle e Renner</h1>
+
+      <div class="info">
+        <span class="top10">TOP 01</span>
+        <span class="rating">100% relevante</span>
+        <span id="display-year">2026</span>
+      </div>
+
+      <div class="season-selector">
+        <select id="seasonSelect" onchange="updateSeason(this.value)">
+          <option value="0">Selecione</option>
+          <option value="1">Temporada 1: O Início</option>
+          <option value="2">Temporada 2: Primeiro Ano</option>
+          <option value="3">Temporada 3: Viagens</option>
+          <option value="4">Temporada 4: Novos Horizontes</option>
+          <option value="5">Temporada 5: Desafios</option>
+          <option value="6">Temporada 6: Superando Barreiras</option>
+          <option value="7">Temporada 7: O Grande Dia</option>
+          <option value="8">Temporada 8: Reencontros</option>
+          <option value="9">Temporada 9: Novas Aventuras</option>
+          <option value="10">Temporada 10: O Legado</option>
+        </select>
+      </div>
+
+      <p class="description" id="display-desc">
+        Carregando nossa história...
+      </p>
+
+      <div class="buttons">
+        <button class="btn-play">▶ Continuar</button>
+        <button class="btn-fav" onclick="favClick()">✓ Favorito</button>
+      </div>
+    </div>
+  </main>
+
+  <section class="gallery">
+    <h2 id="gallery-title">Nossos Melhores Momentos</h2>
+    <div class="gallery-container" id="gallery-images">
+    </div>
+  </section>
+
+  <script>
+    // CONFIGURAÇÃO DAS TEMPORADAS
+    const temporadas = {
+      "0": {
+        titulo: "Emanuelle e Renner",
+        ano: "",
+        desc: "O capítulo onde tudo começou. Cada olhar e cada conversa que nos trouxe até aqui.",
+        bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+        fotos: [
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
+        ]
+      },
+      "1": {
+        titulo: "O Início de Tudo",
+        ano: "2016",
+        desc: "O capítulo onde tudo começou. Cada olhar e cada conversa que nos trouxe até aqui.",
+        bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+        fotos: [
+          "IMG_20150719_141028.jpg",
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
+        ]
+      },
+      "2": {
+        titulo: "Construindo Nós",
+        ano: "2017",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+        fotos: [
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
+        ]
+      }, "3": {
+        titulo: "Construindo Nós",
+        ano: "2018",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "4": {
+        titulo: "Construindo Nós",
+        ano: "2019",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "5": {
+        titulo: "Construindo Nós",
+        ano: "2020",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "6": {
+        titulo: "Construindo Nós",
+        ano: "2021",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "7": {
+        titulo: "Construindo Nós",
+        ano: "2022",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "8": {
+        titulo: "Construindo Nós",
+        ano: "2023",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "9": {
+        titulo: "Construindo Nós",
+        ano: "2024",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }, "10": {
+        titulo: "Construindo Nós",
+        ano: "2025",
+        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        bg: "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
+        fotos: [
+          "URL_FOTO_1_TEMP_2",
+          "URL_FOTO_2_TEMP_2"
+        ]
+      }
+    };
+
+    function updateSeason(val) {
+      const data = temporadas[val];
+      if (!data) return;
+
+      const content = document.getElementById('content');
+      content.style.opacity = 0;
+
+      setTimeout(() => {
+        // Atualiza Textos
+        document.getElementById('display-title').innerText = data.titulo;
+        document.getElementById('display-year').innerText = data.ano;
+        document.getElementById('display-desc').innerText = data.desc;
+
+        // Atualiza Fundo
+        document.getElementById('hero-section').style.backgroundImage = `url('${data.bg}')`;
+
+        // Atualiza Galeria
+        const gall = document.getElementById('gallery-images');
+        gall.innerHTML = "";
+        data.fotos.forEach(link => {
+          const img = document.createElement('img');
+          img.src = link;
+          gall.appendChild(img);
+        });
+
+        content.style.opacity = 1;
+      }, 500);
+    }
+
+    function favClick() {
+      alert("Adicionado à lista de: 'Melhor coisa que já me aconteceu' ❤️");
+    }
+
+    // Iniciar na Temp 1
+    window.onload = () => updateSeason("0");
+
+  </script>
+</body>
+
+</html>
