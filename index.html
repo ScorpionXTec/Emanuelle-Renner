@@ -10,50 +10,57 @@
     rel="stylesheet">
 
   <style>
-   /* --- RESET E ESTRUTURA BASE --- */
+  /* --- RESET E ESTRUTURA BASE --- */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    overflow-x: hidden; /* Impede qualquer barra de rolagem lateral */
+    overflow-x: hidden;
     background-color: #141414;
     color: white;
     font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- NAVEGAÇÃO (HEADER) --- */
+/* --- NAVEGAÇÃO (HEADER RESTAURADO) --- */
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 5%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+    padding: 20px 4%; 
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Corrigido: Agora ocupa toda a largura */
-    box-sizing: border-box; /* Garante que o padding não "empurre" o header para fora */
+    width: 100%;
+    box-sizing: border-box;
     z-index: 1000;
 }
 
 .logo {
     color: #e50914;
-    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-size: clamp(1.4rem, 5vw, 2.2rem);
     font-weight: bold;
     letter-spacing: 1px;
+    text-decoration: none;
 }
 
 nav {
     display: flex;
-    gap: 15px;
+    gap: 20px;
+    align-items: center;
 }
 
 nav a {
     color: #e5e5e5;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 400;
     transition: 0.3s;
+}
+
+nav a:hover {
+    color: white;
 }
 
 /* --- SEÇÃO PRINCIPAL (HERO) --- */
@@ -70,13 +77,12 @@ nav a {
     box-sizing: border-box;
 }
 
-/* Efeito de sombra/degradê sobre a foto */
 .hero::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to right, #141414 10%, transparent 70%),
-                linear-gradient(to top, #141414 5%, transparent 30%);
+    background: linear-gradient(to right, #141414 15%, transparent 75%),
+                linear-gradient(to top, #141414 5%, transparent 40%);
     z-index: 1;
 }
 
@@ -84,90 +90,130 @@ nav a {
     position: relative;
     z-index: 2;
     max-width: 650px;
-    margin-bottom: 4vh; /* Distância dinâmica até a galeria */
+    margin-top: 60px; 
 }
 
 .title {
     font-family: 'Great Vibes', cursive;
-    font-size: clamp(2.8rem, 9vw, 5rem);
+    font-size: clamp(2.8rem, 9vw, 5.5rem);
     margin: 10px 0;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-.description {
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
-    line-height: 1.4;
+/* --- SELOS ATUALIZADOS (TOP 01, VERDE, ESTRELAS) --- */
+.info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
-/* --- BOTÕES E SELETOR --- */
-.season-selector { margin-bottom: 20px; }
+.top10 {
+    background-color: #e50914; 
+    color: white; 
+    padding: 3px 6px;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1;
+}
+
+.rating {
+    color: #46d369; 
+}
+
+.stars {
+    color: #ffa000; 
+    letter-spacing: 2px;
+}
+
+/* --- SELETOR E BOTÕES --- */
+.season-selector { margin-bottom: 25px; }
 .season-selector select {
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.75);
     color: white;
     border: 1px solid #666;
-    padding: 8px 12px;
+    padding: 10px 15px;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
 }
 
-.buttons { display: flex; gap: 10px; }
+.buttons { display: flex; gap: 15px; }
 .buttons button {
-    padding: 10px 25px;
-    font-size: 1rem;
+    padding: 12px 30px;
+    font-size: 1.1rem;
     font-weight: bold;
     border-radius: 4px;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
 }
 .btn-play { background-color: white; color: black; }
 .btn-fav { background-color: rgba(109, 109, 110, 0.8); color: white; }
+.buttons button:hover { transform: scale(1.05); }
 
-/* --- GALERIA --- */
+/* --- GALERIA ATUALIZADA (PAISAGEM + EFEITOS) --- */
 .gallery {
-    padding: 2vh 5% 5vh 5%;
+    padding: 2vh 5% 8vh 5%;
     background-color: #141414;
-    position: relative;
-    z-index: 10;
 }
 
 .gallery-container {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     overflow-x: auto;
+    padding: 20px 0; /* Espaço para o zoom não cortar a foto */
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
 }
 .gallery-container::-webkit-scrollbar { display: none; }
 
+/* Configuração para as imagens da galeria */
 .gallery-container img {
-    min-width: 240px;
-    height: 140px;
-    object-fit: cover;
+    min-width: 300px;      
+    height: 300px;         
+    object-fit: cover;     
     border-radius: 4px;
-    transition: 0.3s;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-/* --- CONFIGURAÇÃO MOBILE (Onde o erro acontecia) --- */
+/* Efeito de zoom e destaque ao passar o mouse */
+.gallery-container img:hover {
+    transform: scale(1.1); /* Zoom suave */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    filter: brightness(1.1); /* Leve brilho */
+    z-index: 10;
+}
+
+/* --- AJUSTES MOBILE --- */
 @media (max-width: 768px) {
     header {
-        justify-content: center; /* Centraliza logo no mobile */
-        padding: 15px 0;
-        width: 100%;
-        left: 0;
+        padding: 15px 5%;
+        background: rgba(20, 20, 20, 0.95);
     }
 
-    nav { display: none; } /* Esconde menu no mobile para focar no logo */
+    nav { display: none; }
 
     .hero {
-        padding-top: 120px; /* Evita que o título fique sob o nome Netflix */
-        min-height: 70vh;
+        padding-top: 100px;
+        min-height: 65vh;
         justify-content: flex-start;
     }
 
     .hero-content {
         text-align: center;
-        margin-bottom: 25px;
+        margin: 0 auto;
     }
+
+    .info { justify-content: center; }
 
     .buttons {
         flex-direction: column;
@@ -175,11 +221,14 @@ nav a {
     }
 
     .buttons button {
-        width: 90%;
+        width: 100%;
+        justify-content: center;
     }
 
-    .gallery {
-        padding-top: 0;
+    /* Ajuste da galeria no mobile */
+    .gallery-container img {
+        min-width: 200px;
+        height: 112px;
     }
 }
   </style>
@@ -205,22 +254,23 @@ nav a {
       <div class="info">
         <span class="top10">TOP 01</span>
         <span class="rating">100% relevante</span>
+        <span class="stars">★★★★★</span>
         <span id="display-year">2026</span>
       </div>
 
       <div class="season-selector">
         <select id="seasonSelect" onchange="updateSeason(this.value)">
           <option value="0">Selecione</option>
-          <option value="1">Temporada 1: O Início</option>
+          <option value="1">Temporada 1: O Encontro</option>
           <option value="2">Temporada 2: Primeiro Ano</option>
-          <option value="3">Temporada 3: Viagens</option>
-          <option value="4">Temporada 4: Novos Horizontes</option>
-          <option value="5">Temporada 5: Desafios</option>
-          <option value="6">Temporada 6: Superando Barreiras</option>
-          <option value="7">Temporada 7: O Grande Dia</option>
-          <option value="8">Temporada 8: Reencontros</option>
-          <option value="9">Temporada 9: Novas Aventuras</option>
-          <option value="10">Temporada 10: O Legado</option>
+          <option value="3">Temporada 3: Romance em Flor</option>
+          <option value="4">Temporada 4: O Chamado do Mundo</option>
+          <option value="5">Temporada 5: Voando Solo</option>
+          <option value="6">Temporada 6: O Retorno</option>
+          <option value="7">Temporada 7: Sob o Mesmo Teto</option>
+          <option value="8">Temporada 8: A Vida a Dois</option>
+          <option value="9">Temporada 9: O Grande Dia</option>
+          <option value="10">Temporada 10: Uma Nova Jornada</option>
         </select>
       </div>
 
@@ -245,9 +295,9 @@ nav a {
     // CONFIGURAÇÃO DAS TEMPORADAS
     const temporadas = {
       "0": {
-        titulo: "Emanuelle e Renner",
+        titulo: "A Saga de Emanuelle e Renner",
         ano: "",
-        desc: "O amor não é apenas um momento; é uma construção de uma vida inteira. Acompanhe a jornada de Emanuelle e Renner, desde o primeiro olhar trocado até ao legado deixado para as futuras gerações. Entre viagens inesquecíveis, desafios de carreira e as provações do destino, descubra como duas almas aprendem que o 'felizes para sempre' é conquistado dia após dia.",
+        desc: "Dois mundos, uma colisão e uma vida inteira para construir. Acompanhe a jornada de Emanuelle e Renner, desde o acaso que os uniu até às fronteiras que cruzaram juntos. Uma história sobre o amor que resiste à distância, ao tempo e às transformações da alma.",
         bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
         fotos: [
           "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
@@ -256,92 +306,96 @@ nav a {
         ]
       },
       "1": {
-        titulo: "O Início de Tudo",
-        ano: "2016",
-        desc: "O capítulo onde tudo começou. Cada olhar e cada conversa que nos trouxe até aqui.",
+        titulo: "O Encontro",
+        ano: "A Construção do Amor (Doce e Intenso)",
+        desc: "O destino prega uma peça em Emanuelle e Renner. Um incidente inesperado coloca-os frente a frente, mas as primeiras impressões não são perfeitas. Entre desencontros e coincidências forçadas, nasce uma curiosidade mútua. O drama aqui é a incerteza: será que eles vão ter a coragem de dar o primeiro passo antes que a oportunidade passe?",
         bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
         fotos: [
-          "IMG_20150719_141028.jpg",
+          "https://lh3.googleusercontent.com/pw/AP1GczM5BH8yh0wvdZipFOe3MzPe-DUXUO6d_UB07Zv3C9j5iz2nEhR2r-lWUTADB_XrUcTBW-Hpt0eHAfNa1B6IcIU8HUyg-A7RUKNPA90HbPMJp0g261Tx0ocxU30O79W5RZ0pzS8OWg7IjNSqc12VUcW8wQ=w509-h505-s-no-gm?authuser=0",
           "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
           "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
         ]
       },
       "2": {
-        titulo: "Construindo Nós",
-        ano: "2017",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "O Primeiro Ano",
+        ano: "A Construção do Amor (Doce e Intenso)",
+        desc: "O \"sim\" foi dito, mas agora começa a vida real. Renner descobre a intensidade emocional de Emanuelle; ela lida com o pragmatismo dele. O primeiro ano é marcado pela doçura das descobertas, mas também pelo medo de se entregarem totalmente. Um segredo do passado ou uma insegurança antiga de Renner ameaça a harmonia inicial.",
         bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
         fotos: [
           "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
           "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
         ]
       }, "3": {
-        titulo: "Construindo Nós",
-        ano: "2018",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "Romance em Flor",
+        ano: "A Construção do Amor (Doce e Intenso)",
+        desc: "A conexão aprofunda-se. Eles tornam-se o porto seguro um do outro. É uma temporada de paixão, viagens de fim de semana e promessas silenciosas. No entanto, o drama surge quando percebem o quanto têm a perder se algo der errado. O amor atinge o seu auge, parecendo inquebrável... por enquanto.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
           "URL_FOTO_1_TEMP_2",
           "URL_FOTO_2_TEMP_2"
         ]
       }, "4": {
-        titulo: "Construindo Nós",
-        ano: "2019",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "O Chamado do Mundo",
+        ano: "Conflito e Crescimento (A Provação)",
+        desc: "Ambições profissionais e mudanças de cenário trazem ventos de mudança. O casal precisa de decidir se os seus sonhos individuais cabem na mesma vida partilhada, exigindo maturidade e compromisso.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
           "URL_FOTO_1_TEMP_2",
           "URL_FOTO_2_TEMP_2"
         ]
       }, "5": {
-        titulo: "Construindo Nós",
-        ano: "2020",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "Voando Solo",
+        ano: "Conflito e Crescimento (A Provação)",
+        desc: "Nem tudo são flores. Uma crise externa (ou um mal-entendido profundo) abala as estruturas do relacionamento. A confiança é posta à prova e o silêncio instala-se onde antes havia risos. É o momento mais sombrio da jornada.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
           "URL_FOTO_1_TEMP_2",
           "URL_FOTO_2_TEMP_2"
         ]
       }, "6": {
-        titulo: "Construindo Nós",
-        ano: "2021",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "O Retorno",
+        ano: "Conflito e Crescimento (A Provação)",
+        desc: "O amor exige ação. Com esforço mútuo e conversas difíceis, eles começam a derrubar os muros construídos na temporada anterior. É uma fase de perdão, reconstrução e fortalecimento do laço que os une.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
           "URL_FOTO_1_TEMP_2",
           "URL_FOTO_2_TEMP_2"
         ]
       }, "7": {
-        titulo: "Construindo Nós",
-        ano: "2022",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "Sob o Mesmo Teto",
+        ano: "Consolidação (Raízes Profundas)",
+        desc: "Após a tempestade, a celebração. Os preparativos, a ansiedade e a emoção culminam numa cerimónia que oficializa a união perante o mundo. O foco aqui é a alegria pura e a promessa de eternidade.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
           "URL_FOTO_1_TEMP_2",
           "URL_FOTO_2_TEMP_2"
         ]
       }, "8": {
-        titulo: "Construindo Nós",
-        ano: "2023",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "A Vida a Dois",
+        ano: "Consolidação (Raízes Profundas)",
+        desc: "A vida de casados traz o regresso de figuras do passado ou a reconexão com partes de si mesmos que ficaram esquecidas. É um tempo de equilibrar a nova vida conjugal com as raízes que os formaram.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
           "URL_FOTO_1_TEMP_2",
           "URL_FOTO_2_TEMP_2"
         ]
       }, "9": {
-        titulo: "Construindo Nós",
-        ano: "2024",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "O Grande Dia",
+        ano: "Consolidação (Raízes Profundas)",
+        desc: "A família cresce ou os projetos expandem-se. Seja a chegada de filhos, a adoção de um pet ou a abertura de um negócio conjunto, eles enfrentam a doce e caótica responsabilidade de cuidar de algo maior que eles próprios.",
         bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
         fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
+          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
+          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0"
         ]
       }, "10": {
-        titulo: "Construindo Nós",
-        ano: "2025",
-        desc: "Um ano de descobertas, risadas e a certeza de que somos o par perfeito.",
+        titulo: "Resolução Final",
+        ano: "Resolução Final",
+        desc: "Olhando para trás, [Nome A] e [Nome B] contemplam a história que escreveram. Com a sabedoria do tempo, transmitem as suas lições de amor, provando que a sua história não termina neles, mas ecoa em todos os que tocaram.",
         bg: "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
         fotos: [
           "URL_FOTO_1_TEMP_2",
