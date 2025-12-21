@@ -1,453 +1,253 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Netflix | Emanuelle e Renner</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet">
-
-  <style>
-  /* --- RESET E ESTRUTURA BASE --- */
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden;
-    background-color: #141414;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* --- NAVEGAÇÃO (HEADER RESTAURADO) --- */
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 4%; 
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1000;
-}
-
-.logo {
-    color: #e50914;
-    font-size: clamp(1.4rem, 5vw, 2.2rem);
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-decoration: none;
-}
-
-nav {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-nav a {
-    color: #e5e5e5;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 400;
-    transition: 0.3s;
-}
-
-nav a:hover {
-    color: white;
-}
-
-/* --- SEÇÃO PRINCIPAL (HERO) --- */
-.hero {
-    width: 100%;
-    min-height: 100vh; /* Ocupa a altura da tela */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* Conteúdo na parte de baixo para não tapar rostos */
-    padding: 0 5% 10vh 5%;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nossa História ❤️</title>
     
-    /* CONFIGURAÇÃO PARA IMAGEM COMPLETA */
-    background-size: contain;      /* MOSTRA A IMAGEM INTEIRA SEM CORTES */
-    background-position: top center; /* Alinha ao topo */
-    --background-repeat: no-repeat;
-    background-color: #000;        /* Fundo preto caso a imagem seja menor que a tela */
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,600;1,600&family=Quicksand:wght@300;500;600&display=swap" rel="stylesheet">
     
-    position: relative;
-    box-sizing: border-box;
-}
+    <style>
+        :root {
+            --primary: #d63384;
+            --text-muted: #999;
+            --bg-timer: #fff5f8;
+        }
 
-.hero::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to right, #141414 15%, transparent 75%),
-                linear-gradient(to top, #141414 5%, transparent 40%);
-    z-index: 1;
-}
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 650px;
-    margin-top: 60px; 
-}
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: #fdf0f5; font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden; /* Impede a rolagem lateral */
+        }
 
-.title {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(2.8rem, 9vw, 5.5rem);
-    margin: 10px 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
+        /* --- TELA DE CARREGAMENTO (LOADER) --- */
+        #loader {
+            position: fixed; inset: 0;
+            background-color: white;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 2000; transition: opacity 0.8s ease;
+        }
 
-/* --- SELOS ATUALIZADOS (TOP 01, VERDE, ESTRELAS) --- */
-.info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
+        .svg-heart-loader {
+            width: 150px; fill: none;
+            stroke: var(--primary); stroke-width: 3;
+            stroke-dasharray: 2000; stroke-dashoffset: 2000;
+            animation: draw 3s ease-in-out forwards;
+        }
 
-.top10 {
-    background-color: #e50914; 
-    color: white; 
-    padding: 3px 6px;
-    border-radius: 2px;
-    font-size: 0.8rem;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1;
-}
+        @keyframes draw { to { stroke-dashoffset: 0; } }
 
-.rating {
-    color: #46d369; 
-}
+        /* --- BACKGROUND GRADIENTE --- */
+        .bg-gradient {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, #fce4ec 0%, #ffebee 100%);
+            z-index: -2;
+        }
 
-.stars {
-    color: #ffa000; 
-    letter-spacing: 2px;
-}
+        /* --- CONTEÚDO PRINCIPAL --- */
+        #main-content {
+            display: none; width: 100%; min-height: 100vh;
+            justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 1s ease;
+            padding: 40px 0; /* Espaço para não colar no topo/fundo */
+        }
 
-/* --- SELETOR E BOTÕES --- */
-.season-selector { margin-bottom: 25px; }
-.season-selector select {
-    background: rgba(0,0,0,0.75);
-    color: white;
-    border: 1px solid #666;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    outline: none;
-}
+        .glass-card {
+            background: white; border-radius: 50px;
+            padding: 40px 25px; width: 90%; max-width: 450px;
+            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            z-index: 10; position: relative;
+        }
 
-.buttons { display: flex; gap: 15px; }
-.buttons button {
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.2s;
-}
-.btn-play { background-color: white; color: black; }
-.btn-fav { background-color: rgba(109, 109, 110, 0.8); color: white; }
-.buttons button:hover { transform: scale(1.05); }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #444; font-size: 2.8rem; margin: 0 0 20px 0;
+            font-weight: 600;
+        }
 
-/* --- GALERIA ATUALIZADA (PAISAGEM + EFEITOS) --- */
-.gallery {
-    padding: 2vh 5% 8vh 5%;
-    background-color: #141414;
-}
+        /* --- CONTADOR --- */
+        .timer-box {
+            background: var(--bg-timer); border: 1px solid #ffebf2;
+            padding: 25px 15px; border-radius: 25px; margin-bottom: 25px;
+        }
 
-.gallery-container {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding: 20px 0; /* Espaço para o zoom não cortar a foto */
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-}
-.gallery-container::-webkit-scrollbar { display: none; }
+        #timer-display { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 1.4rem; color: #555; line-height: 1.6; 
+        }
+        .highlight { color: var(--primary); font-weight: 600; }
 
-/* Configuração para as imagens da galeria */
-.gallery-container img {
-    min-width: 300px;      
-    height: 300px;         
-    object-fit: cover;     
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-}
+        /* --- FOTOS --- */
+        .photo-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; margin-bottom: 35px;
+        }
 
-/* Efeito de zoom e destaque ao passar o mouse */
-.gallery-container img:hover {
-    transform: scale(1.1); /* Zoom suave */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-    filter: brightness(1.1); /* Leve brilho */
-    z-index: 10;
-}
+        .photo-item {
+            aspect-ratio: 3/4; background: #f0f0f0;
+            border-radius: 18px; border: 3px solid #fff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08); overflow: hidden;
+            cursor: pointer;
+        }
 
-/* --- AJUSTES MOBILE --- */
-@media (max-width: 768px) {
-    header {
-        padding: 15px 5%;
-        background: rgba(20, 20, 20, 0.95);
-    }
+        .photo-item img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
-    nav { display: none; }
+        .photo-item:hover img { transform: scale(1.25); }
 
-    .hero {
-        padding-top: 100px;
-        min-height: 65vh;
-        justify-content: flex-start;
-    }
+        /* --- BOTÃO --- */
+        .btn-pink {
+            background: var(--primary); color: white; border: 2px solid var(--primary);
+            padding: 18px 50px; border-radius: 40px;
+            font-family: 'Dancing Script', cursive; font-size: 1.3rem;
+            font-weight: 600; cursor: pointer; transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(214, 51, 132, 0.3);
+        }
 
-    .hero-content {
-        text-align: center;
-        margin: 0 auto;
-    }
+        .btn-pink:hover {
+            background: white; color: var(--primary);
+            box-shadow: 0 15px 25px rgba(214, 51, 132, 0.15);
+        }
 
-    .info { justify-content: center; }
+        /* --- MENSAGEM --- */
+        #secret-message {
+            display: none; margin-top: 30px; padding: 20px;
+            border-top: 1px dashed #ffb3c1;
+            animation: fadeInSlide 1.2s ease forwards;
+        }
 
-    .buttons {
-        flex-direction: column;
-        align-items: center;
-    }
+        .letter-text {
+            font-family: 'Dancing Script', cursive; font-size: 1.7rem;
+            color: var(--primary); line-height: 1.5; text-align: center;
+        }
 
-    .buttons button {
-        width: 100%;
-        justify-content: center;
-    }
+        /* --- CORAÇÕES --- */
+        .floating-heart {
+            position: fixed; bottom: -50px; pointer-events: none;
+            z-index: 1; color: var(--primary); animation: flowUp linear forwards;
+        }
 
-    /* Ajuste da galeria no mobile */
-    .gallery-container img {
-        min-width: 300px;
-        height: 300px;
-    }
-}
-  </style>
+        @keyframes flowUp {
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-
 <body>
 
-  <header>
-    <div class="logo">NETFLIX</div>
-    <nav>
-      <a href="#">Início</a>
-      <a href="#">Séries</a>
-      <a href="#">Filmes</a>
-      <a href="#">Minha lista</a>
-    </nav>
-  </header>
-
-  <main class="hero" id="hero-section">
-    <div class="hero-content" id="content">
-      <span class="type">S É R I E</span>
-      <h1 class="title" id="display-title">Emanuelle e Renner</h1>
-
-      <div class="info">
-        <span class="top10">TOP 01</span>
-        <span class="rating">100% relevante</span>
-        <span class="stars">★★★★★</span>
-        <span id="display-year">2026</span>
-      </div>
-
-      <div class="season-selector">
-        <select id="seasonSelect" onchange="updateSeason(this.value)">
-          <option value="0">Selecione</option>
-          <option value="1">Temporada 1: O Encontro</option>
-          <option value="2">Temporada 2: Primeiro Ano</option>
-          <option value="3">Temporada 3: Romance em Flor</option>
-          <option value="4">Temporada 4: O Chamado do Mundo</option>
-          <option value="5">Temporada 5: Voando Solo</option>
-          <option value="6">Temporada 6: O Retorno</option>
-          <option value="7">Temporada 7: Sob o Mesmo Teto</option>
-          <option value="8">Temporada 8: A Vida a Dois</option>
-          <option value="9">Temporada 9: O Grande Dia</option>
-          <option value="10">Temporada 10: Uma Nova Jornada</option>
-        </select>
-      </div>
-
-      <p class="description" id="display-desc">
-        Carregando nossa história...
-      </p>
-
-      <div class="buttons">
-        <button class="btn-play">▶ Continuar</button>
-        <button class="btn-fav" onclick="favClick()">✓ Favorito</button>
-      </div>
+    <div id="loader">
+        <svg class="svg-heart-loader" viewBox="0 0 512 512">
+            <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/>
+        </svg>
     </div>
-  </main>
 
-  <section class="gallery">
-    <h2 id="gallery-title">Nossos Melhores Momentos</h2>
-    <div class="gallery-container" id="gallery-images">
+    <div class="bg-gradient"></div>
+
+    <div id="main-content">
+        <div class="glass-card">
+            <h1>Nossa História</h1>
+            
+            <div class="timer-box">
+                <div id="timer-display">A calcular...</div>
+            </div>
+
+            <div class="photo-grid">
+                <div class="photo-item"><img src="https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w685-h913-s-no-gm?authuser=0" alt="Foto 1"></div>
+
+                <div class="photo-item"><img src="https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0" alt="Foto 2"></div>
+
+                <div class="photo-item"><img src="https://lh3.googleusercontent.com/pw/AP1GczM7gZi99-4_Cl5hdlBswobTzQn1uNlzCfwDF9OK1znD7M5vgWYDCymVgWoLTt717FgOMf4ekubu9YRbUQOCtVsAIwQ7xwSACyTG_UUAxopTOAyAL0aIc9DWRL8uPpY5zQxq2gls04eoEQpd0oeM57w1tQ=w685-h913-s-no-gm?authuser=0" alt="Foto 3"></div>
+
+            </div>
+
+            <button class="btn-pink" id="btnReveal" onclick="revealLetter()">Ler Carta ❤️</button>
+
+            <div id="secret-message">
+                <div class="letter-text">
+                    "Quero que saibas que, depois de tanto tempo, o teu sorriso ainda é o meu lugar preferido no mundo. É onde eu fico feliz de verdade, sem esforço.<br><br>
+                    Olho para tudo o que passámos e só consigo sentir orgulho de nós. Cada momento contigo é o que eu guardo de mais valioso.<br><br>
+                    A verdade é que eu não me imagino sem ti. Sem ti aqui ao meu lado, os meus dias não têm a mesma graça e os meus planos perdem o sentido. Tu és a minha base, a minha melhor amiga e, acima de tudo, o amor da minha vida.<br><br>
+                    Obrigado por seres essa parceira incrível. Te amo muito, hoje e sempre."
+                </div>
+            </div>
+        </div>
     </div>
-  </section>
 
-  <script>
-    // CONFIGURAÇÃO DAS TEMPORADAS
-    const temporadas = {
-      "0": {
-        titulo: "A Saga de Emanuelle e Renner",
-        ano: "",
-        desc: "Dois mundos, uma colisão e uma vida inteira para construir. Acompanhe a jornada de Emanuelle e Renner, desde o acaso que os uniu até às fronteiras que cruzaram juntos. Uma história sobre o amor que resiste à distância, ao tempo e às transformações da alma.",
-        bg: "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
-        fotos: [
-          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
-        ]
-      },
-      "1": {
-        titulo: "O Encontro",
-        ano: "A Construção do Amor (Doce e Intenso)",
-        desc: "O destino prega uma peça em Emanuelle e Renner. Um incidente inesperado coloca-os frente a frente, mas as primeiras impressões não são perfeitas. Entre desencontros e coincidências forçadas, nasce uma curiosidade mútua. O drama aqui é a incerteza: será que eles vão ter a coragem de dar o primeiro passo antes que a oportunidade passe?",
-        bg: "https://lh3.googleusercontent.com/pw/AP1GczOFqeFohmEYRuPCC-EWOTURhQZVXvbQQZPXYB-Q1ZIBGrYsst66zCwueEI0xhCzmscg6jjmHffavhXHuoQ2N_77FFnLUy7MXbIIvc8z4GNjpmT-RZC3OqA19RutlTqIpi-RFtB1tzB3BQ-7z0Y9jNJRKQ=w685-h913-s-no-gm?authuser=0",
-        fotos: [
-          "https://lh3.googleusercontent.com/pw/AP1GczM5BH8yh0wvdZipFOe3MzPe-DUXUO6d_UB07Zv3C9j5iz2nEhR2r-lWUTADB_XrUcTBW-Hpt0eHAfNa1B6IcIU8HUyg-A7RUKNPA90HbPMJp0g261Tx0ocxU30O79W5RZ0pzS8OWg7IjNSqc12VUcW8wQ=w509-h505-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczPBhBZv-ymVCVhElXnEu3Bz2dshYPWTuds74EUa4ld25dJNLeZt5zGQbNKQpeq-o2MiOKUErjNeKhLtxsuSv_t-iT6Oi32zbYMrySW4Hmq6rExDp0bKEtTiYnluK2vMt9conCRljZkqZkGGVwBm5S19_Q=w720-h711-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczMSIjroiyy50riiE8omGSzD2MpKaeyJeW-MgsxPHwp6hqts1ClIoRDedvjhYuWJg7SpFQem6ZzkHNip8WOdXPkTmsYB92QevfOAg7RnAnSMvbNES1uvAPVQAoVRoVYlZcPtUWQdJGLfsnF4i1t5SHmROg=w720-h715-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczNqpWxWwkB-CM1NPXpv9P-ZxR_GnV9bgqKCyQDBh8XT02AKba5zSlGvHYGBfHUZLshuJw9ir1rp6YNqOPZ1FNnAdwU-EaMBbG4dHFfdRj45XJ49XKSPb1JS9Ro2ij697WlHgR7KNayoSxudRhNX8Y1PbA=w720-h709-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczP9YSghTZQtQOfrCbp8cyW9ZVkKS6BYElSxWoE36gXvQycZc_mQNC7Xrc8gzjV2MChijnVzub2HjgJvudZ74E24Jl1baBlWPecYD--v16Ttm5AdUyuAI6-lHcddO1cG1Kao3fRd1NzYGY2cAHed8b7uaw=w555-h913-s-no-gm?authuser=0S"
-        ]
-      },
-      "2": {
-        titulo: "O Primeiro Ano",
-        ano: "A Construção do Amor (Doce e Intenso)",
-        desc: "O \"sim\" foi dito, mas agora começa a vida real. Renner descobre a intensidade emocional de Emanuelle; ela lida com o pragmatismo dele. O primeiro ano é marcado pela doçura das descobertas, mas também pelo medo de se entregarem totalmente. Um segredo do passado ou uma insegurança antiga de Renner ameaça a harmonia inicial.",
-        bg: "https://lh3.googleusercontent.com/pw/AP1GczOuBgL50wihuKOOicRZ9wjpRncL4Mpe08xCghWwsDwm1XMJpUM2gIRWj6figVgyjEnPBeRBhFUHdbgrqCCTGrAlq1FQ4zIjAEFaK8yCmrZNYMovEpcO-NmCA0uCYYr6Rvm3X7n8s2r-5HFWSXWoL7TbHA=w913-h913-s-no-gm?authuser=0",
-        fotos: [
-          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w663-h883-s-no-gm?authuser=0"
-        ]
-      }, "3": {
-        titulo: "Romance em Flor",
-        ano: "A Construção do Amor (Doce e Intenso)",
-        desc: "A conexão aprofunda-se. Eles tornam-se o porto seguro um do outro. É uma temporada de paixão, viagens de fim de semana e promessas silenciosas. No entanto, o drama surge quando percebem o quanto têm a perder se algo der errado. O amor atinge o seu auge, parecendo inquebrável... por enquanto.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }, "4": {
-        titulo: "O Chamado do Mundo",
-        ano: "Conflito e Crescimento (A Provação)",
-        desc: "Emanuelle sente-se inquieta. O desejo de ver o mundo e crescer profissionalmente entra em conflito com a estabilidade que Renner tanto preza. As conversas tornam-se difíceis; o silêncio ocupa a sala. O amor deles é suficiente para suportar sonhos diferentes? A temporada termina com uma decisão dolorosa, mas necessária.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }, "5": {
-        titulo: "Voando Solo",
-        ano: "Conflito e Crescimento (A Provação)",
-        desc: "Emanuelle parte para o estrangeiro sozinha. Renner fica. A tela divide-se em duas realidades. É a temporada mais dramática: fusos horários desencontrados, chamadas de vídeo falhadas e a terrível sensação de estarem a viver vidas paralelas. Emanuelle descobre a sua força individual, enquanto Renner aprende a lidar com a solidão e o medo de ser esquecido.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }, "6": {
-        titulo: "O Retorno",
-        ano: "Conflito e Crescimento (A Provação)",
-        desc: "O regresso de Emanuelle não é o conto de fadas esperado. Ela voltou mudada; ele criou novas rotinas. O encaixe já não é automático. Há estranheza no ar e mágoas não ditas sobre o tempo separados. Eles precisam de reconquistar a intimidade e decidir se a pessoa que são hoje ainda ama a pessoa que o outro se tornou.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }, "7": {
-        titulo: "Sob o Mesmo Teto",
-        ano: "Consolidação (Raízes Profundas)",
-        desc: "Superada a crise, eles dão o grande passo: morar juntos. Caixas de mudança, falta de espaço e manias domésticas testam a paciência. O drama é leve, focado na adaptação, mas com momentos profundos sobre o que significa construir um lar. É aqui que Renner e Emanuelle aprendem que amar é ceder.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }, "8": {
-        titulo: "A Vida a Dois",
-        ano: "Consolidação (Raízes Profundas)",
-        desc: "A rotina instala-se, mas novos desafios externos aparecem (problemas de carreira, saúde na família). Agora, a força deles não vem da paixão, mas da parceria sólida. Eles enfrentam uma tempestade juntos, provando que a \"Fase 2\" os preparou para serem inabaláveis.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }, "9": {
-        titulo: "O Grande Dia",
-        ano: "Consolidação (Raízes Profundas)",
-        desc: "O pedido acontece. A organização do casamento traz o caos e a emoção à tona. É uma temporada de celebração, mas também de reflexão sobre tudo o que passaram para chegar ali. A cerimónia é o clímax emocional da série, onde os votos lidos no altar relembram a jornada desde a Temporada 1.",
-        bg: "URL_DA_FOTO_DE_FUNDO_TEMP_2",
-        fotos: [
-          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
-          "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0"
-        ]
-      }, "10": {
-        titulo: "Resolução Final",
-        ano: "Resolução Final",
-        desc: "Casados e maduros, surge uma oportunidade de morar fora — o sonho antigo da Temporada 4. Mas agora, a decisão é diferente: eles vão juntos. Emanuelle e Renner fecham a casa, despedem-se da cidade e embarcam para o desconhecido, de mãos dadas. O fim é um novo começo, mostrando que a casa deles é onde estiverem juntos.",
-        bg: "https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0",
-        fotos: [
-          "URL_FOTO_1_TEMP_2",
-          "URL_FOTO_2_TEMP_2"
-        ]
-      }
-    };
+    <script>
+        // DATA DE INÍCIO: (Ano, Mês-1, Dia)
+        const startDate = new Date(2015, 3, 3); 
 
-    function updateSeason(val) {
-      const data = temporadas[val];
-      if (!data) return;
+        // 1. Corações Contínuos
+        function createHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = '❤️';
+            h.className = 'floating-heart';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            h.style.opacity = Math.random() * 0.5 + 0.2;
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 8000);
+        }
+        setInterval(createHeart, 500);
 
-      const content = document.getElementById('content');
-      content.style.opacity = 0;
-
-      setTimeout(() => {
-        // Atualiza Textos
-        document.getElementById('display-title').innerText = data.titulo;
-        document.getElementById('display-year').innerText = data.ano;
-        document.getElementById('display-desc').innerText = data.desc;
-
-        // Atualiza Fundo
-        document.getElementById('hero-section').style.backgroundImage = `url('${data.bg}')`;
-
-        // Atualiza Galeria
-        const gall = document.getElementById('gallery-images');
-        gall.innerHTML = "";
-        data.fotos.forEach(link => {
-          const img = document.createElement('img');
-          img.src = link;
-          gall.appendChild(img);
+        // 2. Lógica do Loader e Exibição
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    const main = document.getElementById('main-content');
+                    main.style.display = 'flex';
+                    setTimeout(() => main.style.opacity = '1', 50);
+                }, 800);
+            }, 3000);
         });
 
-        content.style.opacity = 1;
-      }, 500);
-    }
+        // 3. Contador de Tempo
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            const daysT = Math.floor(diff / 86400000);
+            const yrs = Math.floor(daysT / 365);
+            const mths = Math.floor((daysT % 365) / 30);
+            const days = (daysT % 365) % 30;
+            const hrs = Math.floor((diff / 3600000) % 24);
+            const mins = Math.floor((diff / 60000) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
 
-    function favClick() {
-      alert("Adicionado à lista de: 'Melhor coisa que já me aconteceu' ❤️");
-    }
+            document.getElementById('timer-display').innerHTML = `
+                <span class="highlight">${yrs}</span> Anos <span class="highlight">${mths}</span> Meses <span class="highlight">${days}</span> Dias <br>
+                ${hrs} Horas ${mins} Minutos ${secs} Segundos
+            `;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
-    // Iniciar na Temp 1
-    window.onload = () => updateSeason("0");
-
-  </script>
+        // 4. Revelar Carta e Ajustar Rolagem
+        function revealLetter() {
+            document.getElementById('btnReveal').style.display = 'none';
+            const msg = document.getElementById('secret-message');
+            msg.style.display = 'block';
+            
+            // Permite rolar a página para ler toda a carta
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            
+            // Chuva de corações extra
+            for(let i=0; i<25; i++) setTimeout(createHeart, i * 120);
+        }
+    </script>
 </body>
-
 </html>
