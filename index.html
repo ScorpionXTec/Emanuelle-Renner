@@ -1,253 +1,1182 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-BR" data-theme="day">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nossa História ❤️</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,600;1,600&family=Quicksand:wght@300;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Marcellus&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #d63384;
-            --text-muted: #999;
-            --bg-timer: #fff5f8;
+        /* ═══════════════════════════════════════
+           TOKENS — DIA
+        ═══════════════════════════════════════ */
+        [data-theme="day"] {
+            --bg:          #fdf6f0;
+            --bg2:         #fff9f5;
+            --surface:     #ffffff;
+            --border:      rgba(183, 110, 90, 0.18);
+            --border-accent: rgba(183, 110, 90, 0.45);
+            --rose:        #b5375a;
+            --rose-lt:     #e8c0cc;
+            --rose-glow:   rgba(181,55,90,0.12);
+            --gold:        #c9843e;
+            --gold-lt:     rgba(201,132,62,0.15);
+            --ink:         #2a1510;
+            --ink-soft:    #5a3830;
+            --muted:       #9a6a5a;
+            --muted-lt:    rgba(154,106,90,0.5);
+            --petal-a:     #d4758e;
+            --petal-b:     #c9843e;
+            --loader-bg:   #fdf6f0;
+            --grad-hero: radial-gradient(ellipse 90% 60% at 15% 0%,  rgba(181,55,90,0.08) 0%, transparent 55%),
+                         radial-gradient(ellipse 70% 55% at 88% 95%, rgba(201,132,62,0.09) 0%, transparent 50%),
+                         radial-gradient(ellipse 50% 40% at 50% 50%, rgba(181,55,90,0.03) 0%, transparent 60%),
+                         #fdf6f0;
+            --toggle-icon: "☀️";
+            --shadow-card: 0 8px 48px rgba(42,21,16,0.07), 0 2px 12px rgba(42,21,16,0.04);
+            --shimmer: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background: #fdf0f5; font-family: 'Quicksand', sans-serif;
-            overflow-x: hidden; /* Impede a rolagem lateral */
+        /* ═══════════════════════════════════════
+           TOKENS — NOITE
+        ═══════════════════════════════════════ */
+        [data-theme="night"] {
+            --bg:          #0d0810;
+            --bg2:         #120d16;
+            --surface:     #1a1020;
+            --border:      rgba(180, 130, 210, 0.15);
+            --border-accent: rgba(220, 160, 200, 0.35);
+            --rose:        #e8a0c0;
+            --rose-lt:     rgba(232,160,192,0.25);
+            --rose-glow:   rgba(232,160,192,0.15);
+            --gold:        #f0c878;
+            --gold-lt:     rgba(240,200,120,0.12);
+            --ink:         #f5e8f0;
+            --ink-soft:    #c8a8c0;
+            --muted:       #907088;
+            --muted-lt:    rgba(144,112,136,0.5);
+            --petal-a:     #e8a0c0;
+            --petal-b:     #b898d8;
+            --loader-bg:   #0d0810;
+            --grad-hero: radial-gradient(ellipse 80% 60% at 20% 10%,  rgba(180,100,160,0.12) 0%, transparent 55%),
+                         radial-gradient(ellipse 60% 50% at 85% 90%, rgba(120,80,180,0.10) 0%, transparent 50%),
+                         radial-gradient(ellipse 100% 80% at 50% 50%, rgba(80,40,120,0.08) 0%, transparent 65%),
+                         #0d0810;
+            --toggle-icon: "🌙";
+            --shadow-card: 0 8px 48px rgba(0,0,0,0.4), 0 2px 12px rgba(180,130,210,0.08);
+            --shimmer: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
         }
 
-        /* --- TELA DE CARREGAMENTO (LOADER) --- */
+        /* ═══════════════════════════════════════
+           RESET & BASE
+        ═══════════════════════════════════════ */
+        *, *::before, *::after {
+            box-sizing: border-box; margin: 0; padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%; min-height: 100%;
+            background: var(--bg);
+            font-family: 'Jost', sans-serif;
+            overflow-x: hidden;
+            color: var(--ink);
+            transition: background 0.8s ease, color 0.8s ease;
+        }
+
+        /* ═══════════════════════════════════════
+           LOADER
+        ═══════════════════════════════════════ */
         #loader {
-            position: fixed; inset: 0;
-            background-color: white;
+            position: fixed; inset: 0; z-index: 3000;
+            background: var(--loader-bg);
             display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 2000; transition: opacity 0.8s ease;
+            align-items: center; justify-content: center;
+            gap: 32px;
+            transition: opacity 1.2s ease, visibility 1.2s ease;
+        }
+        #loader.hide { opacity: 0; visibility: hidden; }
+
+        .loader-monogram {
+            width: 90px; height: 90px;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .loader-ring {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            border: 1px solid var(--border-accent);
+            animation: spinRing 3s linear infinite;
+        }
+        .loader-ring::before {
+            content: '';
+            position: absolute; top: -3px; left: 50%;
+            transform: translateX(-50%);
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--rose);
+        }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
+
+        .loader-heart-svg {
+            width: 38px; height: 38px;
+        }
+        .loader-heart-svg path {
+            fill: none;
+            stroke: var(--rose);
+            stroke-width: 2;
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: traceHeart 2.5s ease forwards 0.3s;
+        }
+        @keyframes traceHeart { to { stroke-dashoffset: 0; } }
+
+        .loader-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+            opacity: 0;
+            animation: fadeUp 0.8s 1.6s ease forwards;
+        }
+        .loader-dots {
+            display: flex; gap: 8px;
+            opacity: 0;
+            animation: fadeUp 0.6s 2.2s ease forwards;
+        }
+        .loader-dots span {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: var(--rose-lt);
+            animation: dotPulse 1.2s ease infinite;
+        }
+        .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
-        .svg-heart-loader {
-            width: 150px; fill: none;
-            stroke: var(--primary); stroke-width: 3;
-            stroke-dasharray: 2000; stroke-dashoffset: 2000;
-            animation: draw 3s ease-in-out forwards;
+        /* ═══════════════════════════════════════
+           BACKGROUND & ATMOSPHERE
+        ═══════════════════════════════════════ */
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -2;
+            background: var(--grad-hero);
+            transition: background 0.8s ease;
         }
 
-        @keyframes draw { to { stroke-dashoffset: 0; } }
+        /* Stars (night only) */
+        .stars-layer {
+            position: fixed; inset: 0; z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        [data-theme="night"] .stars-layer { opacity: 1; }
 
-        /* --- BACKGROUND GRADIENTE --- */
-        .bg-gradient {
-            position: fixed; inset: 0;
-            background: linear-gradient(135deg, #fce4ec 0%, #ffebee 100%);
-            z-index: -2;
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            animation: starTwinkle ease infinite;
         }
 
-        /* --- CONTEÚDO PRINCIPAL --- */
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.1; transform: scale(0.8); }
+            50% { opacity: 0.9; transform: scale(1.2); }
+        }
+
+        /* Fine grain texture */
+        .grain-layer {
+            position: fixed; inset: 0; z-index: -1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 128px;
+        }
+
+        /* Deco lines */
+        .deco-line {
+            position: fixed; top: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent 0%, var(--border) 30%, var(--border) 70%, transparent 100%);
+            pointer-events: none; z-index: 0;
+            transition: background 0.8s ease;
+        }
+        .deco-line.left  { left: clamp(14px, 4.5vw, 56px); }
+        .deco-line.right { right: clamp(14px, 4.5vw, 56px); }
+
+        /* Corner ornaments */
+        .corner {
+            position: fixed; z-index: 1; pointer-events: none;
+            width: 40px; height: 40px;
+            opacity: 0.3;
+            transition: opacity 0.8s ease;
+        }
+        [data-theme="night"] .corner { opacity: 0.2; }
+        .corner svg { width: 100%; height: 100%; stroke: var(--gold); fill: none; stroke-width: 1; }
+        .corner.tl { top: clamp(10px, 3vw, 24px); left: clamp(10px, 3vw, 24px); }
+        .corner.tr { top: clamp(10px, 3vw, 24px); right: clamp(10px, 3vw, 24px); transform: scaleX(-1); }
+
+        /* ═══════════════════════════════════════
+           FLOATING PETALS
+        ═══════════════════════════════════════ */
+        .petal {
+            position: fixed; pointer-events: none; z-index: 1;
+            opacity: 0;
+            animation: floatPetal linear infinite;
+            will-change: transform;
+        }
+        @keyframes floatPetal {
+            0%   { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+            8%   { opacity: 0.6; }
+            88%  { opacity: 0.25; }
+            100% { transform: translateY(-10vh) rotate(540deg) scale(1.1); opacity: 0; }
+        }
+
+        /* ═══════════════════════════════════════
+           TOGGLE BUTTON
+        ═══════════════════════════════════════ */
+        .theme-toggle {
+            position: fixed; top: 20px; right: clamp(44px, 9vw, 88px);
+            z-index: 100;
+            width: 52px; height: 28px;
+            border-radius: 14px;
+            border: 1px solid var(--border-accent);
+            background: var(--surface);
+            cursor: pointer;
+            display: flex; align-items: center;
+            padding: 3px;
+            transition: background 0.4s ease, border-color 0.4s ease;
+            box-shadow: var(--shadow-card);
+        }
+        .toggle-thumb {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose), var(--gold));
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+        [data-theme="night"] .toggle-thumb { transform: translateX(24px); }
+
+        /* ═══════════════════════════════════════
+           MAIN CONTENT
+        ═══════════════════════════════════════ */
         #main-content {
-            display: none; width: 100%; min-height: 100vh;
-            justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 1s ease;
-            padding: 40px 0; /* Espaço para não colar no topo/fundo */
+            display: none; opacity: 0;
+            min-height: 100vh;
+            padding: 72px 20px 100px;
+            flex-direction: column;
+            align-items: center;
+            transition: opacity 1.4s ease;
+        }
+        #main-content.visible { display: flex; }
+        #main-content.shown   { opacity: 1; }
+
+        /* ═══════════════════════════════════════
+           HEADER
+        ═══════════════════════════════════════ */
+        .site-header {
+            text-align: center;
+            margin-bottom: 52px;
+            animation: fadeUp 0.9s 0.2s ease both;
         }
 
-        .glass-card {
-            background: white; border-radius: 50px;
-            padding: 40px 25px; width: 90%; max-width: 450px;
-            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            z-index: 10; position: relative;
+        .eyebrow {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 18px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .eyebrow::before, .eyebrow::after {
+            content: '';
+            width: 28px; height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #444; font-size: 2.8rem; margin: 0 0 20px 0;
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(3.2rem, 11vw, 5.5rem);
+            line-height: 0.95;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+            transition: color 0.8s ease;
+        }
+        .main-title em {
+            font-style: italic;
+            color: var(--rose);
+            transition: color 0.8s ease;
+        }
+
+        .title-ornament {
+            display: flex; align-items: center; justify-content: center;
+            gap: 14px;
+            margin-top: 22px;
+        }
+        .title-ornament .line { width: 44px; height: 1px; background: var(--rose-lt); }
+        .title-ornament .diamond {
+            width: 6px; height: 6px;
+            background: var(--rose);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+        .title-ornament .heart-icon {
+            font-size: 12px;
+            color: var(--rose);
+        }
+
+        /* Date badge */
+        .date-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 18px;
+            padding: 7px 18px;
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--muted);
+            background: var(--surface);
+            transition: all 0.8s ease;
+        }
+        .date-badge::before { content: '♡'; color: var(--rose); font-style: normal; }
+
+        /* ═══════════════════════════════════════
+           TIMER CARD
+        ═══════════════════════════════════════ */
+        .timer-card {
+            width: 100%; max-width: 560px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 40px 32px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+            animation: fadeUp 0.9s 0.4s ease both;
+        }
+
+        .timer-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--rose) 25%,
+                var(--gold) 50%,
+                var(--rose) 75%,
+                transparent 100%);
+        }
+        .timer-card::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--border) 30%,
+                var(--border) 70%,
+                transparent 100%);
+        }
+
+        /* Inner shimmer */
+        .timer-card .shimmer {
+            position: absolute; inset: 0;
+            background: var(--shimmer);
+            transform: translateX(-100%);
+            animation: shimmerSlide 4s ease 1s infinite;
+        }
+        @keyframes shimmerSlide {
+            0% { transform: translateX(-100%); }
+            40%, 100% { transform: translateX(100%); }
+        }
+
+        .timer-label {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: clamp(6px, 2.5vw, 18px);
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 52px;
+        }
+
+        .timer-num {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: clamp(2.2rem, 7vw, 3.2rem);
+            color: var(--rose);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            transition: color 0.8s ease;
+        }
+
+        .timer-sep {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--rose-lt);
+            line-height: 1;
+            padding-bottom: 16px;
+            transition: color 0.8s ease;
+        }
+
+        .timer-sub {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        .timer-seconds {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        .timer-seconds strong {
+            color: var(--ink);
+            font-style: normal;
             font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            transition: color 0.8s ease;
         }
 
-        /* --- CONTADOR --- */
-        .timer-box {
-            background: var(--bg-timer); border: 1px solid #ffebf2;
-            padding: 25px 15px; border-radius: 25px; margin-bottom: 25px;
+        .timer-timezone {
+            text-align: center;
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--muted-lt);
+            margin-top: 14px;
         }
 
-        #timer-display { 
-            font-family: 'Dancing Script', cursive; 
-            font-size: 1.4rem; color: #555; line-height: 1.6; 
+        /* ═══════════════════════════════════════
+           PHOTO GRID
+        ═══════════════════════════════════════ */
+        .photos-section {
+            width: 100%; max-width: 560px;
+            margin-bottom: 32px;
+            animation: fadeUp 0.9s 0.6s ease both;
         }
-        .highlight { color: var(--primary); font-weight: 600; }
 
-        /* --- FOTOS --- */
+        .photos-label {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
         .photo-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 15px; margin-bottom: 35px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
         .photo-item {
-            aspect-ratio: 3/4; background: #f0f0f0;
-            border-radius: 18px; border: 3px solid #fff;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08); overflow: hidden;
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            border-radius: 1px;
+            cursor: zoom-in;
+            border: 1px solid var(--border);
+            transition: border-color 0.4s ease;
+        }
+        .photo-item:hover { border-color: var(--rose-lt); }
+
+        .photo-item::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top,
+                rgba(42,21,16,0.5) 0%,
+                rgba(42,21,16,0.1) 40%,
+                transparent 70%);
+            transition: opacity 0.6s ease;
+        }
+        [data-theme="night"] .photo-item::after {
+            background: linear-gradient(to top,
+                rgba(13,8,16,0.7) 0%,
+                rgba(13,8,16,0.2) 40%,
+                transparent 70%);
+        }
+        .photo-item:hover::after { opacity: 0; }
+
+        .photo-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: block;
+        }
+        .photo-item:hover img { transform: scale(1.08); }
+        .photo-item:nth-child(2) { margin-top: 28px; }
+
+        /* ═══════════════════════════════════════
+           REVEAL BUTTON
+        ═══════════════════════════════════════ */
+        .btn-wrapper {
+            width: 100%; max-width: 560px;
+            display: flex; justify-content: center;
+            margin-bottom: 40px;
+            animation: fadeUp 0.9s 0.8s ease both;
+        }
+
+        .btn-reveal {
+            background: transparent;
+            border: 1px solid var(--rose);
+            color: var(--rose);
+            padding: 18px 60px;
+            border-radius: 1px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-style: italic;
+            letter-spacing: 0.1em;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.5s ease, border-color 0.5s ease;
         }
-
-        .photo-item img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        .btn-reveal::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--rose);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
         }
+        .btn-reveal:hover::before { transform: scaleX(1); }
+        .btn-reveal:hover { color: var(--bg); }
+        .btn-reveal span { position: relative; z-index: 1; }
 
-        .photo-item:hover img { transform: scale(1.25); }
-
-        /* --- BOTÃO --- */
-        .btn-pink {
-            background: var(--primary); color: white; border: 2px solid var(--primary);
-            padding: 18px 50px; border-radius: 40px;
-            font-family: 'Dancing Script', cursive; font-size: 1.3rem;
-            font-weight: 600; cursor: pointer; transition: all 0.4s ease;
-            box-shadow: 0 10px 20px rgba(214, 51, 132, 0.3);
-        }
-
-        .btn-pink:hover {
-            background: white; color: var(--primary);
-            box-shadow: 0 15px 25px rgba(214, 51, 132, 0.15);
-        }
-
-        /* --- MENSAGEM --- */
+        /* ═══════════════════════════════════════
+           SECRET LETTER
+        ═══════════════════════════════════════ */
         #secret-message {
-            display: none; margin-top: 30px; padding: 20px;
-            border-top: 1px dashed #ffb3c1;
-            animation: fadeInSlide 1.2s ease forwards;
+            display: none;
+            width: 100%; max-width: 560px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 52px 40px;
+            position: relative;
+            box-shadow: var(--shadow-card);
+            transition: background 0.8s ease, border-color 0.8s ease;
+        }
+        #secret-message.shown {
+            animation: letterReveal 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes letterReveal {
+            from { opacity: 0; transform: translateY(48px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        #secret-message::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        #secret-message::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .letter-top {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px;
+            margin-bottom: 36px;
+        }
+        .letter-ornament {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--rose);
+            letter-spacing: 0.3em;
+        }
+        .letter-day-tag {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--muted);
         }
 
         .letter-text {
-            font-family: 'Dancing Script', cursive; font-size: 1.7rem;
-            color: var(--primary); line-height: 1.5; text-align: center;
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(1.05rem, 3.5vw, 1.22rem);
+            color: var(--ink);
+            line-height: 1.9;
+            text-align: center;
+            transition: color 0.8s ease;
+        }
+        .letter-text p + p { margin-top: 1.5em; }
+
+        .letter-divider {
+            display: flex; align-items: center; gap: 16px;
+            margin: 32px 0;
+        }
+        .letter-divider span { flex: 1; height: 1px; background: var(--border); }
+        .letter-divider em {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--rose);
         }
 
-        /* --- CORAÇÕES --- */
-        .floating-heart {
-            position: fixed; bottom: -50px; pointer-events: none;
-            z-index: 1; color: var(--primary); animation: flowUp linear forwards;
+        .letter-signature {
+            margin-top: 0;
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--muted);
+            transition: color 0.8s ease;
         }
 
-        @keyframes flowUp {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
+        /* Refresh hint */
+        .refresh-hint {
+            margin-top: 20px;
+            text-align: center;
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--muted-lt);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .refresh-hint:hover { color: var(--rose); }
+
+        /* ═══════════════════════════════════════
+           LIGHTBOX
+        ═══════════════════════════════════════ */
+        #lightbox {
+            display: none;
+            position: fixed; inset: 0; z-index: 2000;
+            background: rgba(0,0,0,0.88);
+            align-items: center; justify-content: center;
+            cursor: zoom-out;
+            backdrop-filter: blur(8px);
+        }
+        #lightbox.open {
+            display: flex;
+            animation: fadeUp 0.3s ease;
+        }
+        #lightbox img {
+            max-width: 90vw; max-height: 90vh;
+            object-fit: contain;
+            border-radius: 1px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 24px;
+            color: rgba(255,255,255,0.5);
+            font-size: 24px;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            transition: color 0.2s;
+        }
+        .lightbox-close:hover { color: white; }
+
+        /* ═══════════════════════════════════════
+           ANIMATIONS
+        ═══════════════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes fadeInSlide {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* ═══════════════════════════════════════
+           NIGHT-ONLY: moon glow
+        ═══════════════════════════════════════ */
+        .moon-glow {
+            position: fixed;
+            top: -80px; right: -80px;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(240,200,120,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        [data-theme="night"] .moon-glow { opacity: 1; }
+
+        /* ═══════════════════════════════════════
+           DAY-ONLY: sun warmth
+        ═══════════════════════════════════════ */
+        .sun-warmth {
+            position: fixed;
+            top: -100px; left: -100px;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,200,100,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+        [data-theme="night"] .sun-warmth { opacity: 0; }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .timer-card, #secret-message { padding: 28px 18px; }
+            .btn-reveal { padding: 16px 36px; }
+            .photo-item:nth-child(2) { margin-top: 18px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- LOADER -->
     <div id="loader">
-        <svg class="svg-heart-loader" viewBox="0 0 512 512">
-            <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/>
-        </svg>
-    </div>
-
-    <div class="bg-gradient"></div>
-
-    <div id="main-content">
-        <div class="glass-card">
-            <h1>Nossa História</h1>
-            
-            <div class="timer-box">
-                <div id="timer-display">A calcular...</div>
-            </div>
-
-            <div class="photo-grid">
-                <div class="photo-item"><img src="https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w685-h913-s-no-gm?authuser=0" alt="Foto 1"></div>
-
-                <div class="photo-item"><img src="https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0" alt="Foto 2"></div>
-
-                <div class="photo-item"><img src="https://lh3.googleusercontent.com/pw/AP1GczM7gZi99-4_Cl5hdlBswobTzQn1uNlzCfwDF9OK1znD7M5vgWYDCymVgWoLTt717FgOMf4ekubu9YRbUQOCtVsAIwQ7xwSACyTG_UUAxopTOAyAL0aIc9DWRL8uPpY5zQxq2gls04eoEQpd0oeM57w1tQ=w685-h913-s-no-gm?authuser=0" alt="Foto 3"></div>
-
-            </div>
-
-            <button class="btn-pink" id="btnReveal" onclick="revealLetter()">Ler Carta ❤️</button>
-
-            <div id="secret-message">
-                <div class="letter-text">
-                    "Quero que saibas que, depois de tanto tempo, o teu sorriso ainda é o meu lugar preferido no mundo. É onde eu fico feliz de verdade, sem esforço.<br><br>
-                    Olho para tudo o que passámos e só consigo sentir orgulho de nós. Cada momento contigo é o que eu guardo de mais valioso.<br><br>
-                    A verdade é que eu não me imagino sem ti. Sem ti aqui ao meu lado, os meus dias não têm a mesma graça e os meus planos perdem o sentido. Tu és a minha base, a minha melhor amiga e, acima de tudo, o amor da minha vida.<br><br>
-                    Obrigado por seres essa parceira incrível. Te amo muito, hoje e sempre."
-                </div>
-            </div>
+        <div class="loader-monogram">
+            <div class="loader-ring"></div>
+            <svg class="loader-heart-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/>
+            </svg>
+        </div>
+        <div class="loader-text">a recordar cada momento&hellip;</div>
+        <div class="loader-dots">
+            <span></span><span></span><span></span>
         </div>
     </div>
 
+    <!-- ATMOSPHERICS -->
+    <div class="bg-layer"></div>
+    <div class="grain-layer"></div>
+    <div class="stars-layer" id="starsLayer"></div>
+    <div class="moon-glow"></div>
+    <div class="sun-warmth"></div>
+
+    <!-- DECO -->
+    <div class="deco-line left"></div>
+    <div class="deco-line right"></div>
+
+    <div class="corner tl">
+        <svg viewBox="0 0 40 40"><path d="M2 38 L2 2 L38 2"/><path d="M2 2 L10 10"/><circle cx="2" cy="2" r="2" fill="currentColor" stroke="none" style="color:var(--gold)"/></svg>
+    </div>
+    <div class="corner tr">
+        <svg viewBox="0 0 40 40"><path d="M2 38 L2 2 L38 2"/><path d="M2 2 L10 10"/><circle cx="2" cy="2" r="2" fill="currentColor" stroke="none" style="color:var(--gold)"/></svg>
+    </div>
+
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <div class="toggle-thumb" id="toggleThumb">☀</div>
+    </button>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <!-- MAIN -->
+    <div id="main-content">
+
+        <header class="site-header">
+            <p class="eyebrow">desde 3 de abril de 2015</p>
+            <h1 class="main-title">Nossa <em>História</em></h1>
+            <div class="title-ornament">
+                <div class="line"></div>
+                <div class="diamond"></div>
+                <span class="heart-icon">♡</span>
+                <div class="diamond"></div>
+                <div class="line"></div>
+            </div>
+            <div class="date-badge" id="modeLabel">manhã encantada</div>
+        </header>
+
+        <!-- TIMER -->
+        <div class="timer-card">
+            <div class="shimmer"></div>
+            <p class="timer-label">o nosso tempo juntos</p>
+            <div class="timer-grid">
+                <div class="timer-unit">
+                    <span class="timer-num" id="t-years">0</span>
+                    <span class="timer-sub">anos</span>
+                </div>
+                <div class="timer-sep">·</div>
+                <div class="timer-unit">
+                    <span class="timer-num" id="t-months">0</span>
+                    <span class="timer-sub">meses</span>
+                </div>
+                <div class="timer-sep">·</div>
+                <div class="timer-unit">
+                    <span class="timer-num" id="t-days">0</span>
+                    <span class="timer-sub">dias</span>
+                </div>
+                <div class="timer-sep">·</div>
+                <div class="timer-unit">
+                    <span class="timer-num" id="t-hours">0</span>
+                    <span class="timer-sub">horas</span>
+                </div>
+                <div class="timer-sep">·</div>
+                <div class="timer-unit">
+                    <span class="timer-num" id="t-mins">0</span>
+                    <span class="timer-sub">minutos</span>
+                </div>
+            </div>
+            <p class="timer-seconds">e mais <strong id="t-secs">0</strong> segundos de amor</p>
+            <p class="timer-timezone" id="tz-label"></p>
+        </div>
+
+        <!-- FOTOS -->
+        <div class="photos-section">
+            <p class="photos-label">momentos nossos</p>
+            <div class="photo-grid">
+                <div class="photo-item" onclick="openLightbox(this)" role="button" tabindex="0">
+                    <img src="https://lh3.googleusercontent.com/pw/AP1GczOaR2x6Czpp3gQpRQLjcKF9c5l8vM_Voy5lN2oAh_AMUcFYGEVvM0qlwlSML-lLRtp7p6BwFWZjfSuQjNPvtKuLUioabBByiCCc8olhRILOU2raetEtb0rEI7qOY-PFfRNwxXfJDZTgCStn3VT-NiMgsA=w685-h913-s-no-gm?authuser=0" alt="Momento nosso" onerror="this.parentElement.style.background='var(--rose-lt)'">
+                </div>
+                <div class="photo-item" onclick="openLightbox(this)" role="button" tabindex="0">
+                    <img src="https://lh3.googleusercontent.com/pw/AP1GczOrm7yJWVYSyaBOYxdLF5mnVKY58SrPif4ZJMLeoW8XsC075ot4qYRzmxQmJiqz8ELzuW1lQFdt28XcBj344OEln3xH3kVUUwK0QRTPo8Oc9Chbl_na62HCe2QYb1UJykWbv-B4Fpnd6hHVCgxnVWZqLQ=w685-h913-s-no-gm?authuser=0" alt="Momento nosso" onerror="this.parentElement.style.background='var(--rose-lt)'">
+                </div>
+                <div class="photo-item" onclick="openLightbox(this)" role="button" tabindex="0">
+                    <img src="https://lh3.googleusercontent.com/pw/AP1GczM7gZi99-4_Cl5hdlBswobTzQn1uNlzCfwDF9OK1znD7M5vgWYDCymVgWoLTt717FgOMf4ekubu9YRbUQOCtVsAIwQ7xwSACyTG_UUAxopTOAyAL0aIc9DWRL8uPpY5zQxq2gls04eoEQpd0oeM57w1tQ=w685-h913-s-no-gm?authuser=0" alt="Momento nosso" onerror="this.parentElement.style.background='var(--rose-lt)'">
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO -->
+        <div class="btn-wrapper">
+            <button class="btn-reveal" id="btnReveal" onclick="revealLetter()">
+                <span>Ler a nossa carta ♡</span>
+            </button>
+        </div>
+
+        <!-- CARTA -->
+        <div id="secret-message">
+            <div class="letter-top">
+                <div class="letter-ornament">— ♡ —</div>
+                <div class="letter-day-tag" id="letterTag">carta de amor</div>
+            </div>
+            <div class="letter-text" id="letterBody"></div>
+            <div class="letter-divider">
+                <span></span>
+                <em>♡</em>
+                <span></span>
+            </div>
+            <p class="letter-signature">Te amo, hoje e sempre ♡</p>
+            <p class="refresh-hint" onclick="newLetter()">↻ &nbsp;nova carta</p>
+        </div>
+
+    </div>
+
     <script>
-        // DATA DE INÍCIO: (Ano, Mês-1, Dia)
-        const startDate = new Date(2015, 3, 3); 
-
-        // 1. Corações Contínuos
-        function createHeart() {
-            const h = document.createElement('div');
-            h.innerHTML = '❤️';
-            h.className = 'floating-heart';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            h.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            h.style.opacity = Math.random() * 0.5 + 0.2;
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 8000);
+    /* ═══════════════════════════════════════════
+       CARTAS ROMÂNTICAS — BANCO
+    ═══════════════════════════════════════════ */
+    const letters = [
+        {
+            tag: "carta do meu coração",
+            paragraphs: [
+                "Quero que saibas que, depois de tanto tempo, o teu sorriso ainda é o meu lugar preferido no mundo. É onde eu fico feliz de verdade, sem esforço nenhum.",
+                "Olho para tudo o que passámos juntos e só consigo sentir orgulho de nós dois. De tudo o que construímos, de cada abraço apertado, de cada riso partilhado.",
+                "A verdade é que eu não me imagino sem ti. Sem ti aqui ao meu lado, os meus dias perdem a cor e os meus planos perdem o sentido. Tu és a minha base, a minha melhor amiga e, acima de tudo, o amor da minha vida."
+            ]
+        },
+        {
+            tag: "pensamentos de madrugada",
+            paragraphs: [
+                "Às vezes acordo a meio da noite e a primeira coisa que penso és tu. Não por falta de sono — mas porque a minha alma inteira te procura mesmo quando os olhos estão fechados.",
+                "Nunca me canso de te descobrir. Depois de todo este tempo, ainda há coisas tuas que me encantam como se fosse a primeira vez. Esse jeito que tens de rir com os olhos antes de rir com a boca.",
+                "Obrigado por existires. Por seres exatamente quem és. Por me deixares amar-te e por me amares de volta — que é o maior privilégio que a vida me deu."
+            ]
+        },
+        {
+            tag: "carta escrita com saudade",
+            paragraphs: [
+                "Há uma coisa que aprendi contigo: o amor não é só os grandes momentos. É o chá que aparece na mesa quando estou cansada. É a mão que encontro quando preciso. É a voz que me acalma.",
+                "Tu transformaste a vida num lar. Não um lugar — uma sensação. E essa sensação tem o teu nome, tem o teu cheiro, tem o teu abraço.",
+                "Se pudesse escolher tudo de novo, escolhia-te. Escolhia cada dia contigo, cada discussão que nos fez crescer, cada momento que nos ensinou que somos mais fortes juntos."
+            ]
+        },
+        {
+            tag: "promessa de sempre",
+            paragraphs: [
+                "Prometo continuar a olhar para ti como na primeira vez que percebi que me tinha apaixonado. Com aquele frio no estômago. Com aquela certeza estranha de que estava em casa.",
+                "Prometo estar aqui — não só nos dias bonitos mas sobretudo nos dias cinzentos, quando o mundo pesa e precisas de alguém que aguente o peso contigo.",
+                "Acima de tudo, prometo nunca deixar que o tempo faça esquecer o quanto te amo. Porque és o meu maior amor, o meu melhor amigo, e a minha história preferida."
+            ]
+        },
+        {
+            tag: "amor que cresce",
+            paragraphs: [
+                "Dizem que o amor vai esfriando com o tempo. Contigo é o contrário — vai ficando mais fundo, mais rico, mais nosso. Como um vinho que melhora porque viveu.",
+                "Tenho orgulho em nós. Em como nos escolhemos todos os dias mesmo quando é difícil. Em como somos companheiros de verdade — dois que fazem um.",
+                "E se um dia te esqueceres de quanto és amada, lembra-te disto: estás no centro de tudo o que eu sou. Não existe versão de mim que não te ame por inteiro."
+            ]
+        },
+        {
+            tag: "carta do entardecer",
+            paragraphs: [
+                "Neste momento em que o sol se despede do dia, penso em ti. Naquela luz dourada que faz tudo parecer mais suave — és exactamente assim na minha vida.",
+                "Trazes uma serenidade que eu não sabia que precisava. Antes de ti o mundo tinha arestas; contigo tudo ganhou um contorno gentil, um ritmo mais certo.",
+                "Amo-te com a tranquilidade de quem já sabe. De quem não tem mais dúvidas. De quem encontrou e não precisa de procurar mais."
+            ]
+        },
+        {
+            tag: "carta da lua nova",
+            paragraphs: [
+                "Há noites em que olho para o céu e acho que as estrelas tiveram o trabalho de criar algo tão especial como tu só para me encontrar. E sorrio — porque fui o mais sortudo do mundo.",
+                "No escuro de uma noite qualquer, a tua presença ilumina. Não dramaticamente — suavemente. Como a lua que não ofusca mas acompanha, sempre lá.",
+                "Dorme bem, amor meu. E sabe que em todos os sonhos que tiveres, tem sempre um lugar guardado para mim — assim como tu ocupas todos os meus."
+            ]
+        },
+        {
+            tag: "carta das pequenas coisas",
+            paragraphs: [
+                "São as pequenas coisas que me fazem perceber que és o amor da minha vida. Não os gestos grandes — os invisíveis. O teu perfume na almofada. A forma como dizes o meu nome.",
+                "Cada dia contigo é uma prova de que o amor não precisa de ser espetacular para ser extraordinário. Pode ser silencioso, pode ser simples — e ainda assim ser perfeito.",
+                "Obrigado por me deixares ver o amor nas coisas pequenas. Por me ensinares que o extraordinário mora nos detalhes. Que tu és, de ponta a ponta, um detalhe perfeito."
+            ]
         }
-        setInterval(createHeart, 500);
+    ];
 
-        // 2. Lógica do Loader e Exibição
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                    const main = document.getElementById('main-content');
-                    main.style.display = 'flex';
-                    setTimeout(() => main.style.opacity = '1', 50);
-                }, 800);
-            }, 3000);
-        });
+    /* Escolhe uma carta diferente a cada visita */
+    function pickLetter() {
+        // Usa timestamp para garantir rotação a cada refresh
+        const idx = Math.floor(Date.now() / 1000) % letters.length;
+        return letters[idx];
+    }
 
-        // 3. Contador de Tempo
-        function updateTimer() {
-            const now = new Date();
-            const diff = now - startDate;
-            const daysT = Math.floor(diff / 86400000);
-            const yrs = Math.floor(daysT / 365);
-            const mths = Math.floor((daysT % 365) / 30);
-            const days = (daysT % 365) % 30;
-            const hrs = Math.floor((diff / 3600000) % 24);
-            const mins = Math.floor((diff / 60000) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
+    let currentLetterIdx = Math.floor(Date.now() / 1000) % letters.length;
 
-            document.getElementById('timer-display').innerHTML = `
-                <span class="highlight">${yrs}</span> Anos <span class="highlight">${mths}</span> Meses <span class="highlight">${days}</span> Dias <br>
-                ${hrs} Horas ${mins} Minutos ${secs} Segundos
+    function renderLetter(letter) {
+        document.getElementById('letterTag').textContent = letter.tag;
+        const body = document.getElementById('letterBody');
+        body.innerHTML = letter.paragraphs.map(p => `<p>${p}</p>`).join('');
+    }
+
+    function newLetter() {
+        currentLetterIdx = (currentLetterIdx + 1) % letters.length;
+        const msg = document.getElementById('secret-message');
+        msg.style.animation = 'none';
+        msg.offsetHeight; // reflow
+        msg.style.animation = '';
+        msg.classList.remove('shown');
+        setTimeout(() => {
+            renderLetter(letters[currentLetterIdx]);
+            msg.classList.add('shown');
+        }, 100);
+    }
+
+    /* ═══════════════════════════════════════════
+       TIMER
+    ═══════════════════════════════════════════ */
+    function calcTime() {
+        const now = new Date();
+        const start = new Date(2015, 3, 3); // April 3, 2015
+
+        let years  = now.getFullYear() - start.getFullYear();
+        let months = now.getMonth()    - start.getMonth();
+        let days   = now.getDate()     - start.getDate();
+
+        if (days < 0) {
+            months--;
+            const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+        if (months < 0) { years--; months += 12; }
+
+        document.getElementById('t-years').textContent  = years;
+        document.getElementById('t-months').textContent = months;
+        document.getElementById('t-days').textContent   = days;
+        document.getElementById('t-hours').textContent  = String(now.getHours()).padStart(2,'0');
+        document.getElementById('t-mins').textContent   = String(now.getMinutes()).padStart(2,'0');
+        document.getElementById('t-secs').textContent   = String(now.getSeconds()).padStart(2,'0');
+
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById('tz-label').textContent = 'horário de ' + tz.replace(/_/g,' ');
+    }
+    setInterval(calcTime, 1000);
+    calcTime();
+
+    /* ═══════════════════════════════════════════
+       TEMA DIA / NOITE — automático + toggle
+    ═══════════════════════════════════════════ */
+    function getAutoTheme() {
+        const h = new Date().getHours();
+        return (h >= 6 && h < 19) ? 'day' : 'night';
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const thumb = document.getElementById('toggleThumb');
+        thumb.textContent = theme === 'day' ? '☀' : '☽';
+
+        const h = new Date().getHours();
+        let modeText = '';
+        if (theme === 'day') {
+            if (h >= 6 && h < 12) modeText = 'manhã encantada';
+            else if (h < 17) modeText = 'tarde dourada';
+            else modeText = 'entardecer suave';
+        } else {
+            if (h >= 19 && h < 22) modeText = 'noite estrelada';
+            else modeText = 'madrugada silenciosa';
+        }
+        const label = document.getElementById('modeLabel');
+        if (label) label.textContent = modeText;
+    }
+
+    let currentTheme = getAutoTheme();
+    applyTheme(currentTheme);
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        currentTheme = currentTheme === 'day' ? 'night' : 'day';
+        applyTheme(currentTheme);
+        // Regenerate stars on switch to night
+        if (currentTheme === 'night') buildStars();
+    });
+
+    /* ═══════════════════════════════════════════
+       ESTRELAS
+    ═══════════════════════════════════════════ */
+    function buildStars() {
+        const layer = document.getElementById('starsLayer');
+        layer.innerHTML = '';
+        const count = 80;
+        for (let i = 0; i < count; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const size = Math.random() * 2.5 + 0.5;
+            const dur = Math.random() * 3 + 2;
+            const delay = Math.random() * 4;
+            s.style.cssText = `
+                width:${size}px; height:${size}px;
+                top:${Math.random()*100}%;
+                left:${Math.random()*100}%;
+                animation-duration:${dur}s;
+                animation-delay:${delay}s;
+                opacity:${Math.random()*0.4+0.1};
             `;
+            layer.appendChild(s);
         }
-        setInterval(updateTimer, 1000);
-        updateTimer();
+    }
+    if (currentTheme === 'night') buildStars();
 
-        // 4. Revelar Carta e Ajustar Rolagem
-        function revealLetter() {
-            document.getElementById('btnReveal').style.display = 'none';
-            const msg = document.getElementById('secret-message');
-            msg.style.display = 'block';
-            
-            // Permite rolar a página para ler toda a carta
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-            
-            // Chuva de corações extra
-            for(let i=0; i<25; i++) setTimeout(createHeart, i * 120);
-        }
+    /* ═══════════════════════════════════════════
+       PÉTALAS
+    ═══════════════════════════════════════════ */
+    const petalShapes = ['♥','✿','❀','✾','❁'];
+    let petalCount = 0;
+    const MAX_PETALS = 18;
+
+    function spawnPetal() {
+        if (petalCount >= MAX_PETALS) return;
+        petalCount++;
+        const el = document.createElement('div');
+        el.className = 'petal';
+        el.textContent = petalShapes[Math.floor(Math.random() * petalShapes.length)];
+        const size = (Math.random() * 10 + 7) + 'px';
+        const isNight = currentTheme === 'night';
+        const colors = isNight
+            ? ['#e8a0c0','#b898d8','#f0c878','#c8a0e8']
+            : ['#d4758e','#c9843e','#e8a8b8','#b56070'];
+        el.style.cssText = `
+            left:${Math.random()*100}vw;
+            font-size:${size};
+            color:${colors[Math.floor(Math.random()*colors.length)]};
+            animation-duration:${(Math.random()*7+9)}s;
+            animation-delay:0s;
+        `;
+        document.body.appendChild(el);
+        setTimeout(() => { el.remove(); petalCount--; }, 16000);
+    }
+    setInterval(spawnPetal, 900);
+
+    /* ═══════════════════════════════════════════
+       LOADER
+    ═══════════════════════════════════════════ */
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            loader.classList.add('hide');
+            const main = document.getElementById('main-content');
+            main.classList.add('visible');
+            setTimeout(() => main.classList.add('shown'), 80);
+            setTimeout(() => loader.style.display = 'none', 1400);
+        }, 3000);
+    });
+
+    /* ═══════════════════════════════════════════
+       REVELAR CARTA
+    ═══════════════════════════════════════════ */
+    function revealLetter() {
+        document.getElementById('btnReveal').style.display = 'none';
+        const letter = letters[currentLetterIdx];
+        renderLetter(letter);
+        const msg = document.getElementById('secret-message');
+        msg.style.display = 'block';
+        setTimeout(() => msg.classList.add('shown'), 30);
+        document.body.style.overflow = 'auto';
+        setTimeout(() => msg.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+
+        // chuva de pétalas
+        for (let i = 0; i < 12; i++) setTimeout(spawnPetal, i * 150);
+    }
+
+    /* ═══════════════════════════════════════════
+       LIGHTBOX
+    ═══════════════════════════════════════════ */
+    function openLightbox(item) {
+        const src = item.querySelector('img').src;
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+    }
+
+    // Keyboard support for photo items
+    document.querySelectorAll('.photo-item').forEach(item => {
+        item.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') openLightbox(item);
+        });
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeLightbox();
+    });
     </script>
 </body>
 </html>
